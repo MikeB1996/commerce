@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Items bought</h2>
+    
+    <ul>
+        {% for listing in listings %}
+            {% if listing.active == False and listing.winner == user %}
+                <a href="{% url 'listing' listing.id %}">
+                    <li> item: {{listing.title}}, <br> description: {{listing.description}}, <br> price paid: {{listing.finalPrice}} <br> seller: {{listing.userid}}. </li>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+{% endblock %}

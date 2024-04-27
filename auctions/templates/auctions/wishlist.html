@@ -1,6 +1,19 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-
-
+    <h1>
+        WISHLIST
+    </h1>
+    <ol>
+        {% if wishlist %}
+            {% for item in wishlist %}
+                <a href="{% url 'listing' item.id %}">
+                    <li>name: {{item.title}}</li>
+                </a>
+            {% endfor %}
+        {% else %}
+            <h2>No items in the wishlist</h2>
+        {% endif %}
+    </ol>
+    
 {% endblock %}

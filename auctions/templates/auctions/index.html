@@ -5,9 +5,11 @@
     
     <ul>
         {% for listing in listings %}
-            <a href="{% url 'listing' listing.id %}">
-                <li> item: {{listing.title}}, <br> description: {{listing.description}}, <br> price: {{listing.startingprice}}. </li>
-            </a>
+            {% if listing.active == True %}
+                <a href="{% url 'listing' listing.id %}">
+                    <li> item: {{listing.title}}, <br> description: {{listing.description}}, <br> price: {{listing.startingprice}} <br> seller: {{listing.userid}}. </li>
+                </a>
+            {% endif %}
         {% endfor %}
     </ul>
 {% endblock %}

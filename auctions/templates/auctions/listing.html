@@ -7,6 +7,62 @@
     <ul>
         <li>name: {{listing.title}}</li>
         <li>description: {{listing.description}} </li>
-        <li>price: {{listing.startingprice}} </li>
+        <li>price: {{listing.startingprice}} </li> 
+        <li>seller: {{listing.userid}}</li>
+    </ul>
+
+    {% if highestBid.bidprice %}
+        <h5>highest bid: {{highestBid.bidprice}}</h5>
+    {% else %}
+        <h5>No bids</h5>
+    {% endif %}
+
+    {% if user.is_authenticated and listing.active %}
+
+        <a href="{% url 'userbid' listing.id %}">Place a Bid</a>
+        
+
+        <form method="post" action="{% url 'addwishlistpage' listing.id %}">
+            {% csrf_token %}
+            <button type="submit">Add to Wishlist</button>
+        </form>
+
+
+        {% if listing.userid == user %}
+            <form method="post" action="{% url 'endAuction' listing.id %}">
+                {% csrf_token %}
+                <button type="submit"> End Auction</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    {% if listing.active == False %}
+        {% if listing.winner == user %}
+            <h1> you have won this auction</h1>
+        {% else %}
+            <h1>Winner: {{listing.winner}}</h1>
+        {% endif %}
+    {% endif %}
+
+
+    {% if user.is_authenticated and listing.active %}
+        <h3>Add a comment</h3>
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="commenttext" cols="40" rows="5"></textarea>
+            <br>
+            <button type="submit">Comment</button>
+        </form>
+    {% endif %}
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <h6>{{comment.userid.username}} at {{ comment.created_at }}</h6> <br>
+                {{ comment.commenttext }}
+            </li>
+        {% empty %}
+            <li>No comments for this listing</li>
+        {% endfor %}
     </ul>
 {% endblock %}

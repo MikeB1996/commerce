@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+<h1>Place a bid</h1>
+<h2>{{ listing.title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.bidprice.label_tag }}
+    {{ form.bidprice }}
+    <button type="submit">Place Bid</button>
+</form>
+
+{% endblock %}
